@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+A simple script to select a directory
+
+@author: frablock
+"""
+
+from simple_term_menu import TerminalMenu
+import os
+
+
+ex="/* Select this directory */"
+
+def list_directories(path):
+    return [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+
+def main():
+    a = False
+    current_directory = os.getcwd()
+
+    files = list_directories(current_directory)
+    while not a:
+        options = ["..",ex]+files
+        options = sorted(options)
+        terminal_menu = TerminalMenu(options)
+        menu_entry_index = terminal_menu.show()
+        if options[menu_entry_index] == ex:
+            a = True
+        else:
+            os.chdir("./"+options[menu_entry_index])
+            current_directory = os.getcwd()
+            files = list_directories(current_directory)
+    print(current_directory)
+if __name__ == "__main__":
+	try:
+		main()
+	except:
+		pass
